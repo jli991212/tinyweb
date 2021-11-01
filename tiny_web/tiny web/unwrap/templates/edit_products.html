@@ -1,0 +1,32 @@
+{% extends "admin_page.html" %}
+{% block content %}
+<div class="row">
+    <form method="post" enctype="multipart/form-data" action="/edit_products/{{update.id}} " >
+        {{form.hidden_tag()}}
+        {{form.name.label(class='form-label')}}
+        {{ form.name(class='form-control' ,value=update.name)}}
+        <br/>
+        {{form.price.label(class='form-label')}}
+        {{ form.price(class='form-control', value=update.price)}}
+        <br/>
+        {{form.description.label(class='form-label')}}
+        {{ form.description(class='form-control', value=update.description)}}
+        <br/>
+        {{form.number.label(class='form-label')}}
+        {{ form.number(class='form-control' , value=update.number)}}
+        <br/>
+
+ {{ form.image.label }}: {{ form.image(style='display:inline;') }}
+        <br/>
+        {{form.category.label(class='form-label')}}:{{ form.category(class='form-control', value=update.category)}}
+        <br/>
+        {{ form.submit(class=" btn btn-primary")}}
+    </form>
+
+	
+            
+
+
+
+</div>
+{% endblock content %}

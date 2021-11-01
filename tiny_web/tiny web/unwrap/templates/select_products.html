@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-4">
+        <form method="post" action="/search_view">
+            <div class="row">
+            <div class="col-6">
+                <input type="text" class="form-control"  name="tag" id="tag"/>
+            </div>
+                <div class="col-6">
+                <input type="submit" value="serach"  class="form-control btn btn-primary" />
+            </div>
+            </div>
+        </form>
+    </div>
+</div>
+<br/><br/>
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    filter by category
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="/catalyst">catalyst</a>
+    <a class="dropdown-item" href="/materiel">materiel</a>
+
+  </div>
+</div>
+<br/><br/>
+<div class="row no-gutters">
+    {% for product in products.items %}
+
+        <div class="col-md-3">
+	        <div class="card" style="width:20rem;" >
+			  	<img src="static/uploads/{{product.image}}" class="card-img-top img-thumbnail" alt="...">
+			  	<div class="card-body">
+					<div>
+						<b>
+						{{ product.name }}
+						</b>
+					</div>					    
+
+					<p class="card-text">${{ product.price }}</p>
+					<div id="addToCart">
+						<a href="/addToCart/{{product.id}}">Bid</a>
+                        <a href="/detail/{{product.id}}">sell</a>
+					</div>
+        		</div>
+			</div>
+		</div>
+
+    {% endfor %}
+
+</div>>
+<!-- Pagination Links-->
+<div class="text-right">
+    <a href="{{ url_for('select_products', page=products.prev_num) }}"
+       class="btn btn-outline-dark
+       {% if products.page == 1 %}disabled{% endif %}">
+        &laquo;
+    </a>
+<!-- Loop through the number of pages to display a link for each-->
+    {% for page_num in products.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+{% if page_num %}
+<!-- Check for the active page and set the link to "Active"-->
+            {% if products.page == page_num %}
+            <a href="{{ url_for('select_products', page=page_num) }}"
+               class="btn btn-dark">
+                {{ page_num }}
+            </a>
+            {% else %}
+            <a href="{{ url_for('select_products', page=page_num) }}"
+               class="btn btn-outline-dark">
+                {{ page_num }}
+            </a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
+    <a href="{{ url_for('select_products', page=products.next_num) }}"
+       class="btn btn-outline-dark
+       {% if products.page == products.pages %}disabled{% endif %}">
+        &raquo;
+    </a>
+</div>
+<p class="text-right mt-3">
+   Showing page {{ products.page }} of {{ products.pages }}
+</p>
+{% endblock content %}

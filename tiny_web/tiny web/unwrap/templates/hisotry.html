@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="row no-gutters">
+    {% for item in history %}
+        <div class="col-md-3">
+	        <div class="card" style="width:20rem;" >
+			  	<div class="card-body">
+					<div>
+						<b>
+						{{ item.name }}
+						</b>
+					</div>
+					<p class="card-text">${{ item.number }}</p>
+
+        		</div>
+			</div>
+		</div>
+
+    {% endfor %}
+
+</div>>
+
+{% endblock content %}

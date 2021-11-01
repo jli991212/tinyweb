@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block content %}
+    <!-- <h1>Your cart</h1> -->
+    <!-- <p>Your cart is currently empty.</p> -->
+    <!-- <a href="{{ url_for('home') }}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">CONTINUE SHOPPING</a> -->
+<div id="cartItems">
+	<h2>feedback</h2>
+
+	{% if not cart %}
+	
+	<p>Your cart is currently empty.</p>
+    <a href="{{ url_for('select_products') }}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">CONTINUE SHOPPING</a>
+
+	{% else %}
+		<div style=" text-align: right;">Price</div>
+		<div id="tableItems" >
+
+			{% for item in cart %}
+			
+				<hr>
+				<div id="itemName" style=" text-align: 	left;">
+					<img src="static/uploads/{{item.image}}" class="card-img-top" alt="..." style="height: 80px; width:80px">
+					<span id="itemNameTag">for {{item.name}} : </span>
+					<span> the item is perfect and shipping very fast</span>
+					<span id="itemPriceTag"><div style=" text-align: right">${{item.price}}</div></span>
+
+				    <form action="{{ url_for('cart') }}" method="post">
+    					<div class="form-group">
+        
+    
+
+	        				<input type="hidden" name="idpd" value="{{item.id}}"/>
+						    <select class="form-control" id="exampleFormControlSelect1" style="width:70px; height: 30px" name="qty">
+
+						      <option selected="QtyinCart">{{item.quantity}}</option>
+						      <option>2</option>
+						      <option>3</option>
+						      <option>4</option>
+						      <option>5</option>
+						    </select>
+							<p> please rate</p>
+						</div>
+					</form>
+				</div>
+
+			{% endfor %}
+
+
+		</div>
+	{% endif %}
+</div>
+{% endblock content %}
