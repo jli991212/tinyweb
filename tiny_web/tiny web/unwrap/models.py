@@ -7,6 +7,7 @@ from sqlalchemy.sql import expression
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     firstname = db.Column(db.String(20), unique=False, nullable=False)
@@ -15,7 +16,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     cart = db.relationship('Cart', backref='buyer', lazy=True)
 
-    def add_to_cart(self,product_id):
+    def add_to_cart(self, product_id):
         item_to_add = Cart(product_id=product_id, user_id=self.id)
         db.session.add(item_to_add)
         db.session.commit()
@@ -23,6 +24,7 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"User('{self.firstname}','{self.lastname}', '{self.email}','{self.id}')"
+
 
 class Products(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -32,12 +34,12 @@ class Products(db.Model):
     number = db.Column(db.Integer, nullable=False)
     image = db.Column(db.String(100))
     category = db.Column(db.String(100), nullable=False)
-    deleted = db.Column(db.Boolean, server_default=expression.false(),nullable=False)
+    deleted = db.Column(db.Boolean, server_default=expression.false(), nullable=False)
+
     def __repr__(self):
         return f"('{self.id}','{self.name}', '{self.price}','{self.description}','{self.number}', '{self.image}','{self.category}', '{self.deleted}')"
 
-    def __init__(self, name, price, category,number, description,image, deleted):
-        
+    def __init__(self, name, price, category, number, description, image, deleted):
         self.image = image
         self.name = name
         self.price = price
@@ -45,6 +47,8 @@ class Products(db.Model):
         self.description = description
         self.number = number
         self.deleted = deleted
+
+
 class Cart(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
@@ -53,11 +57,9 @@ class Cart(db.Model):
     number = db.Column(db.Integer, nullable=False, default=0)
 
     def update_qty(self, qty):
-
-     cartitem = Cart.query.filter_by(product_id=self.id).first()
-     cartitem.quantity = qty
-     db.session.commit()
-
+        cartitem = Cart.query.filter_by(product_id=self.id).first()
+        cartitem.quantity = qty
+        db.session.commit()
 
     def __repr__(self):
         return f"Cart('Product id:{self.product_id}','id: {self.id}','User id:{self.user_id}'')"

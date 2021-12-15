@@ -130,24 +130,24 @@ def admin_products():
     if current_user.email != 'root123@gmail.com':
         return render_template("home.html", noOfItems=noOfItems)
     page = request.args.get('page', 1, type=int)
-    products = Products.query.filter(Products.deleted==False).paginate(page,4)
+    products = Products.query.filter(Products.deleted==False).paginate(page,6)
     return render_template('admin_products.html', products=products, noOfItems=noOfItems)
 
 @app.route("/select_products", methods=['GET', 'POST'])
 def select_products():
     noOfItems = getLoginDetails()
     page = request.args.get('page', 1, type=int)
-    products = Products.query.filter(Products.deleted==False).paginate(page,4)
+    products = Products.query.filter(Products.deleted==False).paginate(page,6)
     return render_template('select_products.html', products=products, noOfItems=noOfItems)
 @app.route("/search_view", methods=['POST','GET'])
 def search_view():
     noOfItems = getLoginDetails()
     page = request.args.get('page', 1, type=int)
-    products = Products.query.filter(Products.deleted==False).paginate(page,4)
+    products = Products.query.filter(Products.deleted==False).paginate(page,6)
     if request.method == 'POST':
         tag = request.form['tag']
         #search = "%()%".format(tag)
-        products = Products.query.filter(Products.name.contains(tag),Products.deleted==False).paginate(page,4)
+        products = Products.query.filter(Products.name.contains(tag),Products.deleted==False).paginate(page,6)
         #item = products.items
         return render_template('serach_view.html', products=products, noOfItems=noOfItems)
     else:
@@ -156,13 +156,13 @@ def search_view():
 def catalyst():
     noOfItems = getLoginDetails()
     page = request.args.get('page', 1, type=int)
-    products = Products.query.filter(Products.category=='2',Products.deleted==False).paginate(page,4)
+    products = Products.query.filter(Products.category=='2',Products.deleted==False).paginate(page,6)
     return render_template('select_products.html', products=products, noOfItems=noOfItems)
 @app.route("/materiel")
 def materiel():
     noOfItems = getLoginDetails()
     page = request.args.get('page', 1, type=int)
-    products = Products.query.filter(Products.category=='1',Products.deleted==False).paginate(page,4)
+    products = Products.query.filter(Products.category=='1',Products.deleted==False).paginate(page,6)
     return render_template('select_products.html', products=products, noOfItems=noOfItems)
 
 
